@@ -1,0 +1,15 @@
+.high {
+    background-color: #fee2e2; /* light red */
+    border-left: 4px solid #ef4444; /* red-500 */
+  }
+  
+  .medium {
+    background-color: #fef9c3; /* light yellow */
+    border-left: 4px solid #eab308; /* yellow-500 */
+  }
+  
+  .low {
+    background-color: #dcfce7; /* light green */
+    border-left: 4px solid #22c55e; /* green-500 */
+  }
+  
