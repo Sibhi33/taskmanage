@@ -1,30 +1,3 @@
-import { lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import Home from '../pages/Home';
-import AllTasks from '../pages/AllTasks';
-import AddTask from '../pages/AddTask';
-import FocusCatPage from '../pages/FocusCatPage';
-
-// Lazy-loaded components
-const TaskDetails = lazy(() => import('../pages/TaskDetails'));
-
-const AppRoutes = () => (
-  <Routes>
-    <Route path="/" element={<Home />} />
-    <Route path="/tasks" element={<AllTasks />} />
-    <Route path="/tasks/add" element={<AddTask />} />
-    <Route path="/focuscat" element={<FocusCatPage />} />
-    <Route 
-      path="/tasks/:id" 
-      element={
-        <Suspense fallback={<div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
-        </div>}>
-          <TaskDetails />
-        </Suspense>
-      } 
-    />
-  </Routes>
-);
-
-export default AppRoutes;
+version https://git-lfs.github.com/spec/v1
+oid sha256:41eef0294fcadd1a3a17ef3a7fefd003dd4148ecd9a8f81873a9de323ac10633
+size 948
