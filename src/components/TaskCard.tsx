@@ -11,21 +11,21 @@ interface TaskCardProps {
 
 const TaskCard: React.FC<TaskCardProps> = ({ id, title, description, priority, status }) => {
   const priorityColors = {
-    Low: 'bg-green-100 text-green-800',
-    Medium: 'bg-yellow-100 text-yellow-800',
-    High: 'bg-red-100 text-red-800'
+    Low: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100',
+    Medium: 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-100',
+    High: 'bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-100'
   };
 
   const statusColors = {
-    Todo: 'bg-gray-100 text-gray-800',
-    'In Progress': 'bg-blue-100 text-blue-800',
-    Done: 'bg-green-100 text-green-800'
+    Todo: 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100',
+    'In Progress': 'bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-100',
+    Done: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-100'
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4 mb-4 hover:shadow-lg transition-shadow">
+    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 mb-4 hover:shadow-lg transition-shadow">
       <div className="flex justify-between items-start mb-2">
-        <Link to={`/task/${id}`} className="text-lg font-semibold text-gray-800 hover:text-blue-600">
+        <Link to={`/tasks/${id}`} className="text-lg font-semibold text-gray-800 dark:text-white hover:text-primary-600 dark:hover:text-primary-400">
           {title}
         </Link>
         <div className="flex space-x-2">
@@ -37,11 +37,11 @@ const TaskCard: React.FC<TaskCardProps> = ({ id, title, description, priority, s
           </span>
         </div>
       </div>
-      <p className="text-gray-600 text-sm mb-4">{description}</p>
-      <div className="flex justify-end space-x-2">
+      <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">{description}</p>
+      <div className="flex justify-end">
         <Link 
-          to={`/task/${id}`}
-          className="text-sm text-blue-600 hover:text-blue-800"
+          to={`/tasks/${id}`}
+          className="text-sm text-primary-600 dark:text-primary-400 hover:text-primary-800 dark:hover:text-primary-300"
         >
           View Details
         </Link>

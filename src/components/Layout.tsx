@@ -12,7 +12,7 @@ const Layout = ({ children }: LayoutProps) => {
           <div className="flex justify-between h-16">
             <div className="flex">
               <Link to="/" className="flex items-center px-3 py-2 text-gray-700 hover:text-gray-900">
-                Task Manager
+                Taskizmo
               </Link>
             </div>
             <div className="flex items-center space-x-4">

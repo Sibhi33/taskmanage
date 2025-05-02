@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import confetti from 'canvas-confetti';
 import { useTasks } from '../context/TaskContext';
 import type { Task } from '../context/TaskContext';
 
@@ -13,78 +14,138 @@ const AddTask = () => {
     status: 'Todo'
   });
 
-  const handleSubmit = useCallback((e: React.FormEvent) => {
-    e.preventDefault();
-    addTask(formData);
-    navigate('/');
-  }, [formData, addTask, navigate]);
+  const handleConfetti = () => {
+    confetti({
+      particleCount: 120,
+      spread: 100,
+      origin: { y: 0.6 },
+      colors: ['#4f46e5', '#a855f7', '#facc15', '#ffffff'], // Royal blue, violet, gold, white
+    });
+  };
 
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  }, []);
+  const handleSubmit = useCallback(
+    (e: React.FormEvent) => {
+      e.preventDefault();
+      addTask(formData);
+      handleConfetti();
+      setTimeout(() => navigate('/tasks'), 1200);
+    },
+    [formData, addTask, navigate]
+  );
+
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+      const { name, value } = e.target;
+      setFormData(prev => ({ ...prev, [name]: value }));
+    },
+    []
+  );
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Add New Task</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label htmlFor="title" className="block text-sm font-medium text-gray-700">Title</label>
-          <input
-            type="text"
-            id="title"
-            name="title"
-            value={formData.title}
-            onChange={handleChange}
-            required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-          />
+    <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-gradient-to-br from-gray-100 via-white to-gray-300 dark:from-[#1e1e1e] dark:via-[#121212] dark:to-black transition-colors duration-500">
+      <div className="w-full max-w-3xl rounded-3xl p-10 shadow-2xl bg-blue-500/30 blue:bg-white/5 backdrop-blur-md border border-white/20 dark:border-white/10">
+
+        {/* Header */}
+        <div className="text-center mb-10">
+          <h1 className="text-4xl font-extrabold font-[Playfair_Display] text-blue-800-800 dark:text-white">
+            Add New Task
+          </h1>
+          <p className="text-sm text-gray-600 dark:text-gray-300 mt-2 font-medium">
+            Organize your day with elegance.
+          </p>
         </div>
 
-        <div>
-          <label htmlFor="description" className="block text-sm font-medium text-gray-700">Description</label>
-          <textarea
-            id="description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-            required
-            rows={4}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-          />
-        </div>
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="space-y-8">
 
-        <div>
-          <label htmlFor="priority" className="block text-sm font-medium text-gray-700">Priority</label>
-          <select
-            id="priority"
-            name="priority"
-            value={formData.priority}
-            onChange={handleChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-          >
-            <option value="Low">Low</option>
-            <option value="Medium">Medium</option>
-            <option value="High">High</option>
-          </select>
-        </div>
+          {/* Title */}
+          <div>
+            <label htmlFor="title" className="text-gray-800 dark:text-gray-200 font-medium block mb-2">
+              Title
+            </label>
+            <input
+              id="title"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              required
+              placeholder="Task title"
+              className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-white/10 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+            />
+          </div>
 
-        <div className="flex justify-end space-x-4">
-          <button
-            type="button"
-            onClick={() => navigate('/')}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
-          >
-            Cancel
-          </button>
-          <button
-            type="submit"
-            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700"
-          >
-            Add Task
-          </button>
-        </div>
-      </form>
+          {/* Description */}
+          <div>
+            <label htmlFor="description" className="text-gray-800 dark:text-gray-200 font-medium block mb-2">
+              Description
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              required
+              rows={4}
+              placeholder="Task details..."
+              className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-white/10 text-gray-900 dark:text-white placeholder:text-gray-500 dark:placeholder:text-gray-400 border border-gray-300 dark:border-gray-600 resize-none focus:ring-2 focus:ring-purple-500 focus:outline-none"
+            />
+          </div>
+
+          {/* Priority & Status */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label htmlFor="priority" className="text-gray-800 dark:text-gray-200 font-medium block mb-2">
+                Priority
+              </label>
+              <select
+                id="priority"
+                name="priority"
+                value={formData.priority}
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-white/10 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+              >
+                <option>Low</option>
+                <option>Medium</option>
+                <option>High</option>
+              </select>
+            </div>
+
+            <div>
+              <label htmlFor="status" className="text-gray-800 dark:text-gray-200 font-medium block mb-2">
+                Status
+              </label>
+              <select
+                id="status"
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-xl bg-white/70 dark:bg-white/10 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 focus:ring-2 focus:ring-purple-500 focus:outline-none"
+              >
+                <option>Todo</option>
+                <option>In Progress</option>
+                <option>Done</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Buttons */}
+          <div className="flex justify-end gap-4 pt-6 border-t border-gray-200 dark:border-gray-700">
+            <button
+              type="button"
+              onClick={() => navigate('/tasks')}
+              className="px-5 py-2.5 rounded-xl text-sm font-medium text-gray-600 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-200 dark:hover:bg-white/10 transition"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="px-6 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-blue-600 via-purple-600 to-yellow-500 hover:opacity-90 transition shadow-md"
+            >
+              Add Task
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

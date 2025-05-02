@@ -1,19 +1,25 @@
 import { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import Home from '../pages/Home';
 import AllTasks from '../pages/AllTasks';
 import AddTask from '../pages/AddTask';
+import FocusCatPage from '../pages/FocusCatPage';
 
-// Lazy-loaded component for TaskDetails
+// Lazy-loaded components
 const TaskDetails = lazy(() => import('../pages/TaskDetails'));
 
 const AppRoutes = () => (
   <Routes>
-    <Route path="/" element={<AllTasks />} />
-    <Route path="/add" element={<AddTask />} />
+    <Route path="/" element={<Home />} />
+    <Route path="/tasks" element={<AllTasks />} />
+    <Route path="/tasks/add" element={<AddTask />} />
+    <Route path="/focuscat" element={<FocusCatPage />} />
     <Route 
-      path="/task/:id" 
+      path="/tasks/:id" 
       element={
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<div className="flex justify-center items-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-500"></div>
+        </div>}>
           <TaskDetails />
         </Suspense>
       } 
